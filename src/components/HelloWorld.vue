@@ -16,7 +16,7 @@
 </section>
 <section class="calender">
   <p class="days" >Calender Month:</p>
-  <p class="days" >{{monthh+1}}</p>
+  <p class="days" >{{CurrentMonth}} {{yearone}}</p>
  
 </section>
 <section class="calender">
@@ -45,10 +45,12 @@ export default {
   
 data(){
   return {
-    // month: new Date().getMonth(),
+    month: new Date().toLocaleString('default', {month  : 'long'}),
     
     monthh: new Date().getMonth(),
-    month: new Date().toLocaleString('default', {month  : 'long'}),
+    // month: new Date(),
+    yearone: new Date().getFullYear(),
+  
     year: new Date().getFullYear(),
     minutes: '',
     seconds: '',
@@ -57,12 +59,19 @@ data(){
     days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat']
   };
 },
+computed:{
+  CurrentMonth(){
+    console.log( new Date(10, 2020).toLocaleString('default', {month  : 'long'}))
+    return new Date(this.year, this.monthh).toLocaleString('default', {month  : 'long'});
+    
+    
+  }
+},
 methods:{
   
   DateTime(){
 
  
-    console.log("sex is the best"+ this.monthh)
     return new Date(this.year, this.monthh+1, 0).getDate();
   },
 MonthsTime(){
@@ -86,15 +95,40 @@ HoursTime(){
 StartDate(){
  
     // const year = new Date().getFullYear();
-    // console.log(month + "pusssy")
+
   return new Date(2020, this.monthh, 1 ).getDay();
 },
 next(){
-this.monthh++;
+  if (this.monthh == 11 || this.monthh == 0) {
+    this.monthh++;
+    this.yearone++;
+     
+  } else {
+    this.month++;
+     this.monthh++;
+
+
+  
+    
+  }
+
 
 },
 prev(){
-this.monthh--;
+
+ if (this.monthh == 1|| this.monthh == 0 ) {
+    this.monthh--;
+    this.yearone--;
+    
+  } else {
+ 
+  this.monthh--;
+
+
+  
+    
+  }
+
 
 },
 SecondsTime(){
