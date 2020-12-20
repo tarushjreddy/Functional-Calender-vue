@@ -1,58 +1,188 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+<div>
+<div class="header">Calender Pro</div>
+<div class="para">
+<section class="calender">
+  <p class="days" >Current Date:</p>
+  <p class="days" >{{date}}th</p>
+  <p class="days" >{{month}}</p>
+  <p class="days" >{{year}}</p>
+</section>
+
+<section class="calender">
+  <p class="days" >Current Time:</p>
+  <p class="days" >{{hour}}:{{minutes}}:{{seconds}}</p>
+ 
+</section>
+<section class="calender">
+  <p class="days" >Calender Month:</p>
+  <p class="days" >{{monthh+1}}</p>
+ 
+</section>
+<section class="calender">
+  <p class="days" v-for="day in days" :key="day">{{day}} </p>
+</section>
+<section class="calender_dates">
+   <p class="days_dates_pro" v-for="num in StartDate() " :key="num">x</p>
+   <p class="days_dates" v-for="num in DateTime() " :key="num">{{num}}</p>
+</section>
+<section class="calender">
+  <button @click="prev()" >&lt;</button>
+  <button @click="next()">></button>
+  <!-- <p class="days" >Current Days:</p> -->
+  <!-- <p class="days" >{{StartDate()}} Days</p> -->
+  
+</section>
+</div>
+
+</div>
 </template>
 
 <script>
+
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  
+data(){
+  return {
+    // month: new Date().getMonth(),
+    
+    monthh: new Date().getMonth(),
+    month: new Date().toLocaleString('default', {month  : 'long'}),
+    year: new Date().getFullYear(),
+    minutes: '',
+    seconds: '',
+    hour: '',
+    date: new Date().getDate(),
+    days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat']
+  };
+},
+methods:{
+  
+  DateTime(){
+
+ 
+    console.log("sex is the best"+ this.monthh)
+    return new Date(this.year, this.monthh+1, 0).getDate();
+  },
+MonthsTime(){
+  
+  setInterval(() => {
+   console.log(new Date().getMinutes());
+   this.minutes = new Date().getMinutes();
+  
+  }, 1000);
+
+},
+HoursTime(){
+  
+  setInterval(() => {
+   console.log(new Date().getHours());
+   this.hour = new Date().getHours();
+  
+  }, 1000);
+
+},
+StartDate(){
+ 
+    // const year = new Date().getFullYear();
+    // console.log(month + "pusssy")
+  return new Date(2020, this.monthh, 1 ).getDay();
+},
+next(){
+this.monthh++;
+
+},
+prev(){
+this.monthh--;
+
+},
+SecondsTime(){
+  
+  setInterval(() => {
+   console.log(new Date().getSeconds());
+   this.seconds = new Date().getSeconds();
+  
+  }, 1000);
+
+},},
+
+
+ mounted () {
+  this.SecondsTime(),
+  this.MonthsTime(),
+  this.HoursTime()
 }
+
+}
+
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+.calender{
+  display: flex;
+
+  align-items: center;
+  /* justify-content: center; */
+    font-family: 'Poppins', sans-serif;
+
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.days{
+  margin-left: 20px;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+.days_dates{
+  margin-left: 39px;
+  max-width: 10px;
+  text-align: center;
 }
-a {
-  color: #42b983;
+.days_dates_pro{
+    margin-left: 39px;
+  max-width: 10px;
+  text-align: center;
+  color: white;
+}
+.header{
+  width: 100vw;
+  height: 50px;
+  background-color: #74b9ff;
+  box-shadow: 0.5px 0.5px 10px gray;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.calender_dates{
+   display: flex;
+flex-wrap: wrap;
+  align-items: center;
+  /* justify-content: center; */
+    font-family: 'Poppins', sans-serif;
+    max-width: 350px !important;
+    text-align: center;
+}
+button{
+  height: 50px;
+  width: 50px;
+  border: none;
+  outline: none;
+border-radius: 40px;
+    font-family: 'Poppins', sans-serif;
+margin-left: 20px;
+}
+button:hover{
+ transition : all 200ms ease-in-out;
+ background-color: #74b9ff;
+     font-family: 'Poppins', sans-serif;
+color: white;
+
+}
+.para{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 </style>
